@@ -7,8 +7,8 @@ const queries = require('./queries');
 router.get('/', (req, res, next) => {
   queries
     .getMovies()
-    .then(movies =>console.log(movies))
-    .catch(err => console.log(err))
+    .then(movies => res.send(movies))
+    .catch(err => res.send(err))
 })
 
 module.exports = router;
