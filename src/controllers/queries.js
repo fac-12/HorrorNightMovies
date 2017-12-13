@@ -8,7 +8,7 @@ const getMovies = () =>
 
 const singleMovieInfo = (id) =>
 db.query(
-   `SELECT movies.title, movies.year, movies.description, movies.rating, COUNT(movies.id) FROM movies FULL JOIN votes ON movies.id=votes.movie_id WHERE movies.id=id GROUP BY movies.id`);
+   `SELECT movies.title, movies.year, movies.description, movies.rating, COUNT(movies.id) FROM movies FULL JOIN votes ON movies.id=votes.movie_id WHERE movies.id=${id} GROUP BY movies.id`);
 
 module.exports = {
   getMovies,
