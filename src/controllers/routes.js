@@ -12,8 +12,15 @@ router.get('/', (req, res, next) => {
         .catch(err => res.send(err))
 })
 
-router.get('/getMovieInfo:id', (req, res, next) => {
-    res.render('singleMovie', { singleMovie })
+router.get('/getMovieInfo/:id', (req, res, next) => {
+    const { id } = req.params;
+    queries
+        .singleMovieInfo(id)
+        .then(movie => {
+            const singleMovie = movie[0];
+            res.render('singleMovie', { singleMovie });
+        })
+        .catch(err => res.send(err))
 })
 
 module.exports = router;
