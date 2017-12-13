@@ -27,6 +27,13 @@ const singleMovie = {
     description: "Big boat sinks"
 }
 
+router.get('/', (req, res, next) => {
+    queries
+        .getMovies()
+        .then(movies => res.send(movies))
+        .catch(err => res.send(err))
+})
+
 router.get('/getMovies', (req, res, next) => {
     res.render('moviesMain', { movies })
 })
