@@ -8,7 +8,8 @@ test('Testing queries', (t) => {
         .expect(200)
         .expect('Content-Type', /json/) //check
         .end(function(err, res) {
-            t.error(err)
+            t.equal(res.body[0].title, 'Split', 'Split is the first title returned');
+            t.error(err);
             t.end();
         })
 })
