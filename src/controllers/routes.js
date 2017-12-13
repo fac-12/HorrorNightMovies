@@ -31,4 +31,12 @@ router.post('/addMovie', ({ body }, res, next) => {
     .catch(err => res.send(err))
 })
 
+router.get('/login', (req, res, next) => res.render('login'));
+router.post('/addUser', ({ body }, res, next) => {
+    queries
+    .addUser(body)
+    .then(res.send('added user success'))
+    .catch(err => res.send(err))
+})
+
 module.exports = router;

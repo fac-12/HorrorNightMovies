@@ -17,8 +17,16 @@ const addMovie = newMovie => {
     [title, year, description]);
   };
 
+  const addUser = addUser => {
+    const {username, password } = addUser;
+    return db.query(
+      `INSERT INTO users(username, password) VALUES($1,$2)`,
+      [username, password]);
+    };
+
 module.exports = {
   getMovies,
   singleMovieInfo,
   addMovie,
+  addUser,
 }
