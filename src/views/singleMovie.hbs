@@ -1,0 +1,9 @@
+{{> navbar}}
+<section class "singlemovie">
+    <h2 class="singlemovie__title">{{singleMovie.title}}</h2>
+    <p class="singlemovie__year">{{singleMovie.year}}</p>
+    <p class="singlemovie__description">{{singleMovie.description}}</p>
+    <p class="singlemovie__rating">{{singleMovie.rating}}</p>
+    <p class="movie__count">{{singleMovie.count}}</p>
+    <a href="/addVote?user=&movie={{singleMovie.id}}">Upvote</a>
+</section>
