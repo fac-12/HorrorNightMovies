@@ -1,0 +1,72 @@
+/***********************************************
+  $page layout
+***********************************************/
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/***********************************************
+  $navbar
+***********************************************/
+.navbar {
+  padding: 1rem 0;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+.navbar__container {
+  margin: 0 auto;
+  max-width: var(--limited-width-container);
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.navbar__list {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar__link {
+  color: var(--color-text-main);
+  text-transform: uppercase;
+}
+
+.navbar__link:hover {
+  border-bottom: solid 3px var(--color-text-main);
+}
+
+
+.flex_container {
+  display: flex;
+  
+}
+
+.sidebar{
+  width: 300px;
+}
+
+.movies_section{
+  width: 100%;
+  padding: 0 15px;
+}
+
+.sidebar__form{
+  display: flex;
+  flex-direction: column;
+}
+
+.movie{
+  padding: 10px;
+}

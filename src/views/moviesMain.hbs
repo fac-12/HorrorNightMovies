@@ -1,5 +1,5 @@
-{{> navbar}}
-<aside class="sidebar">
+<div id='flex_container' class='flex_container'>
+    <aside class="sidebar">
         <h2 class="sidebar__header">Add your movie suggestion here ...</h2>
         <form class="sidebar__form" action="/addMovie" method="POST">
             <input type="text" placeholder="Add movie title">
@@ -8,15 +8,19 @@
             <input type="submit" value="Submit" />
         </form>
     </aside>
-    
-    {{#each movies}}
-    <section class="movie" id="{{id}}">
-        <a href="/getMovieInfo/{{id}}">
-            <h2 class="movie__title">{{title}}</h2>
-        </a>
-        <p class="movie__year">{{year}}</p>
-        <p class="movie__rating">{{rating}}</p>
-        <p class="movie__count">{{count}}</p>
-        <a href="/addVote?user=&movie={{id}}">Upvote</a>
-    </section>
-    {{/each}}
+
+    <div id='movies_section' class='movies_section'>
+        {{#each movies}}
+        <section class="movie" id="{{id}}">
+            <a href="/getMovieInfo/{{id}}">
+                <h2 class="movie__title">{{title}}</h2>
+            </a>
+            <p class="movie__year">{{year}}</p>
+            <p class="movie__rating">{{rating}}</p>
+            <p class="movie__count">{{count}}</p>
+            <a href="/addVote?user=&movie={{id}}">Upvote</a>
+        </section>
+        {{/each}}
+    </div>
+</div>
+<script src="/index.js"></script>
