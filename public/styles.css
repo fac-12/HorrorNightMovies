@@ -9,13 +9,14 @@
 html {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  /* min-height: 100%; */
 }
 
 body {
   display: flex;
   flex-direction: column;
   flex: 1;
+  height: 100vh;
 }
 
 /***********************************************
@@ -47,10 +48,9 @@ body {
   border-bottom: solid 3px var(--color-text-main);
 }
 
-
 .flex_container {
   display: flex;
-  
+  margin-bottom: auto;
 }
 
 .sidebar{
@@ -69,4 +69,14 @@ body {
 
 .movie{
   padding: 10px;
+}
+
+.singlemovie{
+  margin: 20px auto;
+  width: 50%;
+  margin-bottom: auto;
+}
+
+.footer {
+  padding: 20px;
 }

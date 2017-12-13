@@ -16,7 +16,10 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
     const { id } = req.params;
     queries
         .singleMovieInfo(id)
-        .then(singleMovie => res.render('singleMovie', { singleMovie }))
+        .then(movie => {
+            const singleMovie = movie[0];
+            res.render('singleMovie', { singleMovie });
+        })
         .catch(err => res.send(err))
 })
 
