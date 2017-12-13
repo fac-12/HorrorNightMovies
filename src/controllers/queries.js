@@ -8,5 +8,4 @@ db.query(
 
    module.exports = {
      getMovies,
-     simple,
    }
