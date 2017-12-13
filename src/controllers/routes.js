@@ -23,4 +23,12 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
         .catch(err => res.send(err))
 })
 
+router.post('/addMovie', ({ body }, res, next) => {
+    console.log(body)
+    // queries
+    // .addMovie(body)
+    // .then(res.send('success'))
+    // .catch(err => res.send(err))
+})
+
 module.exports = router;
