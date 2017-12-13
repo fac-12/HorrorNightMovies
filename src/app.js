@@ -1,7 +1,6 @@
 const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
-// import 'express-handlebars'
 const exphbs = require('express-handlebars');
 
 const routes = require('./controllers/routes');
