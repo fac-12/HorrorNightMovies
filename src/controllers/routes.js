@@ -6,11 +6,17 @@ const router = express.Router();
 const queries = require('./queries');
 
 
+
 router.get('/', (req, res, next) => {
-    queries
-        .getMovies()
-        .then(movies => res.render('moviesMain', { movies }))
-        .catch(err => res.send(err))
+    if (req.session.user) {
+        queries
+            .getMovies()
+            .then(movies => res.render('moviesMain', { movies }))
+            .catch(err => res.send(err))
+    } else {
+        res.redirect('/login')
+    }
+
 })
 
 router.get('/getMovieInfo/:id', (req, res, next) => {
@@ -26,19 +32,29 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
 
 router.post('/addMovie', ({ body }, res, next) => {
     queries
-    .addMovie(body)
-    .then(id => {
-      res.redirect(`/getMovieInfo/${id}`)
-    })
-    .catch(err => res.send(err))
+        .addMovie(body)
+        .then(id => {
+            res.redirect(`/getMovieInfo/${id}`)
+        })
+        .catch(err => res.send(err))
 })
 
 router.get('/login', (req, res, next) => res.render('login'));
-router.post('/addUser', ({ body }, res, next) => {
+
+router.get('/logout', (req, res, next) => {
+    req.session = null;
+    res.redirect('/login')
+});
+
+router.post('/addUser', (req, res, next) => {
+    const { body } = req;
     queries
-    .addUser(body)
-    .then(res.redirect('/'))
-    .catch(err => res.send(err))
+        .addUser(body)
+        .then((user) => {
+            req.session.user = user;
+            res.redirect('/')
+        })
+        .catch(err => res.send(err))
 })
 
 module.exports = router;
