@@ -1,5 +1,5 @@
 const db = require('../database/dbConnection');
-
+/*eslint-disable*/
 const getMovies = () =>
     db.query(
         `SELECT movies.id, movies.title, movies.year, movies.rating, COUNT(movies.id)
@@ -22,15 +22,20 @@ const addUser = addUser => {
         `INSERT INTO users(username, password) VALUES($1,$2) RETURNING USERNAME, ID`, [addUser.username, addUser.password]).then(nameArray => nameArray[0]);
 };
 
+const getUserData = username => {
+    return db.query('SELECT * FROM users WHERE username = $1', [username]);
+}
+
 const addVote = (movie_id, user_id) => {
     return db.query(
   `INSERT INTO votes(movie_id, user_id) VALUES($1, $2) RETURNING user_id`, [movie_id, user_id]);
     };
 
 module.exports = {
-  getMovies,
-  singleMovieInfo,
-  addMovie,
-  addUser,
-  addVote,
+    getMovies,
+    singleMovieInfo,
+    addMovie,
+    addUser,
+    getUserData,
+    addVote
 }

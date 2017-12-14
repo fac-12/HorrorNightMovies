@@ -6,13 +6,15 @@
             <input type="password" name="confirmpassword" placeholder="Confirm password" required>
             <input type="Submit" value="Submit">
         </form>
+        <p class="signup__error">{{signupError}}</p>
     </section>
     <section class="login">
         <h2 class="login__header">Login</h2>
-        <form class="login__form" id="login__form" action="/getMovies">
+        <form class="login__form" id="login__form" action="/loginUser" method="POST">
             <input type="text" name="username" placeholder="Name" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="Submit" value="Submit">
         </form>
+        <p class="login__error">{{loginError}}</p>
     </section>
     
