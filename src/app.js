@@ -3,7 +3,7 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const cookieSession = require('cookie-session')
+const cookieSession = require('cookie-session');
 
 const routes = require('./controllers/routes');
 
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieSession({
         name: 'session',
-        secret: 'secret',
+        secret: process.env.SECRET,
         maxAge: 24 * 60 * 60 * 1000,
     }))
     // set up view engine

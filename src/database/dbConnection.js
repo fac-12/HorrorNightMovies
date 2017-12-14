@@ -1,12 +1,20 @@
 const pgp = require('pg-promise')();
+const env = require('env2')('./config.env');
+const url = require('url');
+
+const params = url.parse(process.env.HEROKU_DB);
+const [username, password] = params.auth.split(':');
 
 const herokuDB = {
-    host: process.env.HEROKU_HOST,
-    user: process.env.HEROKU_USER,
-    password: process.env.HEROKU_PW,
-    database: process.env.HEROKU_DB,
+    host: params.hostname,
+    port: params.port,
+    database: params.pathname.split('/')[1],
+    max: process.env.DB_MAX_CONNECTIONS || 2,
     ssl: true,
 };
+
+if (username) { herokuDB.user = username; }
+if (password) { herokuDB.password = password; }
 
 const localDB = {
     host: 'localhost',
