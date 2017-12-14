@@ -1,94 +1,182 @@
 /***********************************************
   $page layout
 ***********************************************/
+
 * {
-  margin: 0;
-  box-sizing: border-box;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 html {
-  display: flex;
-  flex-direction: column;
-  /* min-height: 100%; */
+    display: flex;
+    flex-direction: column;
+    /* min-height: 100%; */
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100vh;
+    background-image: url(./images/background.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100vh;
+    color: white;
+    font-family: 'Quicksand', sans-serif;
+    background-position: bottom;
 }
+
+
+/* login page */
+
+.login_flex_container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.signup,
+.login {
+    background-color: #0C120C;
+    width: 30%;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    box-shadow: 2px 3px 5px black;
+    border-radius: 10px;
+}
+
+.signup__form,
+.login__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.signup__header,
+.login__header {
+    margin: 1em 10%;
+    letter-spacing: 1px;
+    font-size: 1.5em;
+}
+
+.signup__form input,
+.login__form input {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.9em;
+    text-align: center;
+    width: 80%;
+    height: 3rem;
+    margin-bottom: 1rem;
+    border: 1px solid white;
+    background: white;
+    border-radius: 5px;
+}
+
+.login_submit {
+    background-color: #990303 !important;
+    border: 1px solid #990303 !important;
+    color: white;
+}
+
+.button_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.login_modal {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.9em;
+    text-align: center;
+    height: 3rem;
+    background-color: #990303 !important;
+    border: 1px solid #990303 !important;
+    color: white;
+    width: 15%;
+    margin: 0 1rem;
+    border-radius: 5px;
+}
+
+.hidden {
+    display: none;
+}
+
 
 /***********************************************
   $navbar
 ***********************************************/
+
 .navbar {
-  padding: 1rem 0;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
-/* .navbar__container {
-  margin: 0 auto;
-  max-width: var(--limited-width-container);
-} */
-
 .navbar__list {
-  display: flex;
-  list-style-type: none;
-  padding: 0;
+    display: flex;
+    list-style-type: none;
+    padding: 0;
 }
 
 .navbar__title {
-  margin-left: 20px;
-  margin-right: auto;
-}
-
-.navbar__user {
-  
+    margin-left: 20px;
+    margin-right: auto;
 }
 
 .navbar__logout {
-  margin: 0 20px;
+    margin: 0 20px;
 }
 
 .navbar__link {
-  color: var(--color-text-main);
-  text-transform: uppercase;
+    color: var(--color-text-main);
+    text-transform: uppercase;
 }
 
 .navbar__link:hover {
-  border-bottom: solid 3px var(--color-text-main);
+    border-bottom: solid 3px var(--color-text-main);
 }
 
 .flex_container {
-  display: flex;
-  margin-bottom: auto;
+    display: flex;
+    margin-bottom: auto;
 }
 
-.sidebar{
-  width: 300px;
+
+/* movies main page */
+
+.sidebar {
+    width: 300px;
 }
 
-.movies_section{
-  width: 100%;
-  padding: 0 15px;
+.movies_section {
+    width: 100%;
+    padding: 0 15px;
 }
 
-.sidebar__form{
-  display: flex;
-  flex-direction: column;
+.sidebar__form {
+    display: flex;
+    flex-direction: column;
 }
 
-.movie{
-  padding: 10px;
+.movie {
+    padding: 10px;
 }
 
-.singlemovie{
-  margin: 20px auto;
-  width: 50%;
-  margin-bottom: auto;
+
+/* single movies main page */
+
+.singlemovie {
+    margin: 20px auto;
+    width: 50%;
+    margin-bottom: auto;
 }
 
 .footer {
-  padding: 20px;
+    padding: 20px;
+    background-color: #0C120C;
+    width: 100%;
 }

@@ -1,20 +1,26 @@
-    <section class="signup">
+<div id="button_container" class="button_container">
+    <button id="login_modal" class="login_modal" type="button">Login</button>
+    <button id="signup_modal" class="login_modal" type="button">Signup</button>
+</div>
+    <div class="login_flex_container"> 
+<section class="signup hidden" id="signup">
         <h2 class="signup__header">Signup</h2>
         <form class="signup__form" id="signup__form" action="/addUser" method="POST">
             <input type="text" name="username" placeholder="Name" required>
             <input type="password" name="password" placeholder="Password" required>
             <input type="password" name="confirmpassword" placeholder="Confirm password" required>
-            <input type="Submit" value="Submit">
+            <input class="login_submit" type="Submit" value="Submit">
         </form>
         <p class="signup__error">{{signupError}}</p>
     </section>
-    <section class="login">
+    <section class="login hidden" id="login">
         <h2 class="login__header">Login</h2>
         <form class="login__form" id="login__form" action="/loginUser" method="POST">
             <input type="text" name="username" placeholder="Name" required>
             <input type="password" name="password" placeholder="Password" required>
-            <input type="Submit" value="Submit">
+            <input class="login_submit" type="Submit" value="Submit">
         </form>
         <p class="login__error">{{loginError}}</p>
     </section>
-    
+    </div>
+<script src="/index.js"></script>
