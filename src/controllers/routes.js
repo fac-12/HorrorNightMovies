@@ -27,7 +27,9 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
 router.post('/addMovie', ({ body }, res, next) => {
     queries
     .addMovie(body)
-    .then(res.send('success'))
+    .then(id => {
+      res.redirect(`/getMovieInfo/${id}`)
+    })
     .catch(err => res.send(err))
 })
 
@@ -35,7 +37,7 @@ router.get('/login', (req, res, next) => res.render('login'));
 router.post('/addUser', ({ body }, res, next) => {
     queries
     .addUser(body)
-    .then(res.send('added user success'))
+    .then(res.redirect('/'))
     .catch(err => res.send(err))
 })
 
