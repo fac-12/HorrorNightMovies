@@ -57,18 +57,14 @@ router.post('/addMovie', (req, res, next) => {
 router.get('/addVote?', (req, res, next) => {
   const userId = req.session.user.id;
   const data = queryString.parse(req.url.split('?')[1]);
-  console.log(data);
     queries
     .checkVote(data.movie, data.user)
     .then(voteResponse => {
-        console.log(voteResponse);
         if (voteResponse.length){
             res.redirect('back');
-            console.log('already voted');
         }else{
-            console.log('new vote');
             queries.addVote(data.movie, data.user)
-            .then(res.redirect('/'))
+            .then(res.redirect('back'))
             .catch(err => res.send(err))
         }
     })
