@@ -2,9 +2,9 @@
     <aside class="sidebar">
         <h2 class="sidebar__header">Add your movie suggestion here ...</h2>
         <form class="sidebar__form" action="/addMovie" method="POST">
-            <input name="title" type="text" placeholder="Add movie title">
-            <input name="year" type="text" placeholder="Add movie year">
-            <input name="description" type="text" placeholder="Add movie description">
+            <input name="title" type="text" placeholder="Add movie title" required>
+            <input name="year" type="text" placeholder="Add movie year (YYYY)" pattern="\d{4}" required>
+            <input name="description" type="text" placeholder="Add movie description (optional)">
             <input type="submit" value="Submit" />
         </form>
     </aside>
