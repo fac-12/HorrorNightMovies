@@ -2,9 +2,9 @@ const db = require('../database/dbConnection');
 /*eslint-disable*/
 const getMovies = () =>
     db.query(
-        `SELECT movies.id, movies.title, movies.year, movies.rating, COUNT(movies.id)
+        `SELECT movies.id, movies.title, movies.year, movies.rating, COUNT(votes.movie_id)
    FROM movies FULL JOIN votes ON movies.id=votes.movie_id GROUP BY
-   movies.id ORDER BY COUNT(movies.id) DESC`);
+   movies.id ORDER BY COUNT(votes.movie_id) DESC`);
 
 const singleMovieInfo = (id) =>
     db.query(
@@ -31,11 +31,18 @@ const addVote = (movie_id, user_id) => {
   `INSERT INTO votes(movie_id, user_id) VALUES($1, $2) RETURNING user_id`, [movie_id, user_id]);
     };
 
+const checkVote = (movie_id, user_id) => {
+    return db.query(
+        `SELECT * FROM votes WHERE movie_id=${movie_id} AND user_id=${user_id}`
+    );
+};
+
 module.exports = {
     getMovies,
     singleMovieInfo,
     addMovie,
     addUser,
     getUserData,
-    addVote
+    addVote,
+    checkVote,
 }
