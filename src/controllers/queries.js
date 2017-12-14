@@ -13,7 +13,8 @@ const singleMovieInfo = (id) =>
 const addMovie = newMovie => {
     const { title, year, description } = newMovie;
     return db.query(
-        `INSERT INTO movies(title, year, description) VALUES($1,$2, $3)`, [title, year, description]);
+            `INSERT INTO movies(title, year, description) VALUES($1,$2, $3) RETURNING ID`, [title, year, description])
+        .then(newMovieID => newMovieID[0].id)
 };
 
 const addUser = addUser => {
