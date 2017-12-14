@@ -5,14 +5,16 @@ const express = require('express');
 const validator = require('validator');
 const router = express.Router();
 const queries = require('./queries');
+const queryString = require('query-string');
 const { hashPassword, validate, loginPageError } = require('./logic');
 
 router.get('/', (req, res, next) => {
-    const username = req.session.user.username;
     if (req.session.user) {
+        const userId = req.session.user.id;
+        const username = req.session.user.username;
         queries
             .getMovies()
-            .then(movies => res.render('moviesMain', { movies, username }))
+            .then(movies => res.render('moviesMain', { movies, username, userId }))
             .catch(err => res.send(err))
     } else {
         loginPageError(req, res, null, null);
@@ -24,11 +26,12 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
     if (req.session.user) {
         const { id } = req.params;
         const username = req.session.user.username;
+        const userId = req.session.user.id;
         queries
             .singleMovieInfo(id)
             .then(movie => {
                 const singleMovie = movie[0];
-                res.render('singleMovie', { singleMovie, username });
+                res.render('singleMovie', { singleMovie, username, userId });
             })
             .catch(err => res.send(err))
     } else {
@@ -52,12 +55,19 @@ router.post('/addMovie', (req, res, next) => {
 
 
 router.get('/addVote?', (req, res, next) => {
-    const user_id = req.session.user.id;
-    const url = req.url;
-    const movie_id = url.split('&')[1].split('=')[1];
+    const userId = req.session.user.id;
+    const data = queryString.parse(req.url.split('?')[1]);
     queries
-        .addVote(movie_id, user_id)
-        .then(res.redirect('/'))
+        .checkVote(data.movie, data.user)
+        .then(voteResponse => {
+            if (voteResponse.length) {
+                res.redirect('back');
+            } else {
+                queries.addVote(data.movie, data.user)
+                    .then(res.redirect('back'))
+                    .catch(err => res.send(err))
+            }
+        })
         .catch(err => res.send(err))
 })
 

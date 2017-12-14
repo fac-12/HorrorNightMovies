@@ -2,9 +2,9 @@ const db = require('../database/dbConnection');
 /*eslint-disable*/
 const getMovies = () =>
     db.query(
-        `SELECT movies.id, (SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.rating, COUNT(movies.id)
+        `SELECT movies.id, (SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.rating, COUNT(votes.movie_id)
    FROM movies FULL JOIN votes ON movies.id=votes.movie_id GROUP BY
-   movies.id ORDER BY COUNT(movies.id) DESC`);
+   movies.id ORDER BY COUNT(votes.movie_id) DESC`);
 
 const singleMovieInfo = (id) =>
     db.query(
@@ -36,6 +36,12 @@ const getUsername = user_id => {
         `SELECT username FROM users WHERE id = $1`, [user_id]);
 }
 
+const checkVote = (movie_id, user_id) => {
+    return db.query(
+        `SELECT * FROM votes WHERE movie_id=${movie_id} AND user_id=${user_id}`
+    );
+};
+
 module.exports = {
     getMovies,
     singleMovieInfo,
@@ -43,4 +49,5 @@ module.exports = {
     addUser,
     getUserData,
     addVote,
+    checkVote,
 }
