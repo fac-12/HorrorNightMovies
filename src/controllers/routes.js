@@ -43,7 +43,7 @@ router.post('/addMovie', (req, res, next) => {
     const { body } = req;
     if (req.session.user) {
         queries
-            .addMovie(req.session.user.username, body) //need to update
+            .addMovie(req.session.user.id, body)
             .then(id => {
                 res.redirect(`/getMovieInfo/${id}`)
             })
