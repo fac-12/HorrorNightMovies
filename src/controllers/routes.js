@@ -40,7 +40,7 @@ router.post('/addMovie', (req, res, next) => {
     const { body } = req;
     if (req.session.user) {
         queries
-            .addMovie(body)
+            .addMovie("Hannah", body)
             .then(id => {
                 res.redirect(`/getMovieInfo/${id}`)
             })
@@ -52,13 +52,13 @@ router.post('/addMovie', (req, res, next) => {
 
 
 router.get('/addVote?', (req, res, next) => {
-  const user_id = req.session.user.id;
-  const url = req.url;
-  const movie_id = url.split('&')[1].split('=')[1];
+    const user_id = req.session.user.id;
+    const url = req.url;
+    const movie_id = url.split('&')[1].split('=')[1];
     queries
-    .addVote(movie_id, user_id)
-    .then(res.redirect('/'))
-    .catch(err => res.send(err))
+        .addVote(movie_id, user_id)
+        .then(res.redirect('/'))
+        .catch(err => res.send(err))
 })
 
 router.get('/login', (req, res, next) => {
