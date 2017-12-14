@@ -2,10 +2,14 @@ const express = require('express');
 const path = require('path');
 const favicon = require('serve-favicon');
 const exphbs = require('express-handlebars');
+const bodyParser = require('body-parser');
 
 const routes = require('./controllers/routes');
 
 const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // set up view engine
 app.set('views', path.join(__dirname, 'views'));

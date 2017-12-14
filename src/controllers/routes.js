@@ -1,4 +1,5 @@
 /* Main routes file*/
+/*eslint-disable*/
 
 const express = require('express');
 const router = express.Router();
@@ -21,6 +22,21 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
             res.render('singleMovie', { singleMovie });
         })
         .catch(err => res.send(err))
+})
+
+router.post('/addMovie', ({ body }, res, next) => {
+    queries
+    .addMovie(body)
+    .then(res.send('success'))
+    .catch(err => res.send(err))
+})
+
+router.get('/login', (req, res, next) => res.render('login'));
+router.post('/addUser', ({ body }, res, next) => {
+    queries
+    .addUser(body)
+    .then(res.send('added user success'))
+    .catch(err => res.send(err))
 })
 
 module.exports = router;
