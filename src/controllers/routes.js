@@ -48,20 +48,19 @@ router.post('/loginUser', (req, res, next) => {
     queries
         .getUserData(req.body.username)
         .then(userData => {
-            console.log(userData[0]);
             if (userData.length) {
                 validate(req.body.password, userData[0].password)
-                .then((okay) => {
-                    if(okay) {
-                        req.session.user = {id: userData[0].id, username: userData[0].username};
-                        res.redirect('/');
-                    } else {
-                        loginPageError(req, res, null, 'Wrong password');
-                    }
-                })
-                .catch(err => res.send(err));
+                    .then((okay) => {
+                        if (okay) {
+                            req.session.user = { id: userData[0].id, username: userData[0].username };
+                            res.redirect('/');
+                        } else {
+                            loginPageError(req, res, null, 'Wrong password');
+                        }
+                    })
+                    .catch(err => res.send(err));
             } else {
-                loginPageError(req, res, null,'User ' + req.body.username + ' does not exist');
+                loginPageError(req, res, null, 'User ' + req.body.username + ' does not exist, please sign up');
             }
         })
         .catch(err => res.send(err));
@@ -78,27 +77,27 @@ router.post('/addUser', (req, res, next) => {
         .getUserData(req.body.username)
         .then(userData => {
             if (userData.length) {
-                loginPageError(req, res, "User "+req.body.username+ " already exists", null);
+                loginPageError(req, res, "Username " + req.body.username + " already exists", null);
             } else {
                 if (body.password === body.confirmpassword) {
-                    if (!validator.matches(body.password, /[^\s]{8,})/)) {
-                        loginPageError(req, res, "Password must be 8 characters",null);
+                    if (!validator.matches(body.password, /[^\s]{8,}/)) {
+                        loginPageError(req, res, "Password must be at least 8 characters", null);
                     } else {
                         hashPassword(body.password)
-                        .then((pw) => {
-                            body.password = pw;
-                            return queries.addUser(body)
-                        })
-                        .then((user) => {
-                            req.session.user = user;
-                            res.redirect('/')
-                        })
-                        .catch(err => res.send(err))
+                            .then((pw) => {
+                                body.password = pw;
+                                return queries.addUser(body)
+                            })
+                            .then((user) => {
+                                req.session.user = user;
+                                res.redirect('/')
+                            })
+                            .catch(err => res.send(err))
                     }
                 } else {
                     loginPageError(req, res, "Passwords do not match", null);
                 }
-                
+
             }
         })
         .catch(err => res.send(err))
