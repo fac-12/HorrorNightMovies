@@ -12,6 +12,7 @@ voteBtns.forEach(function(btn) {
     fetch(url, {credentials: 'same-origin'})
       .then(
         function(response) {
+					console.log(response);
           if (response.status === 201) {
             btn.innerHTML = (parseInt(btn.textContent)+1) + '  <i class="fas green fa-thumbs-up"></i>';
           } else if (response.status === 200){
