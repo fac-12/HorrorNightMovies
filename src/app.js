@@ -6,7 +6,6 @@ const bodyParser = require('body-parser');
 const cookieSession = require('cookie-session')
 
 const routes = require('./controllers/routes');
-// const helpers = require('./controllers/helpergetUser.js');
 
 const app = express();
 
@@ -28,8 +27,7 @@ app.engine(
         layoutsDir: path.join(__dirname, 'views', 'layouts'),
         partialsDir: path.join(__dirname, 'views', 'partials'),
         defaultLayout: 'main',
-        // helpers: helpers,
-    })
+          })
 );
 
 app.set('port', process.env.PORT || 3000);
