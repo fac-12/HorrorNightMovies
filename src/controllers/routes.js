@@ -2,9 +2,10 @@
 /*eslint-disable*/
 
 const express = require('express');
+const validator = require('validator');
 const router = express.Router();
 const queries = require('./queries');
-const { hashPassword } = require('./logic')
+const { hashPassword, validate, loginPageError } = require('./logic')
 
 
 router.get('/', (req, res, next) => {
@@ -14,7 +15,7 @@ router.get('/', (req, res, next) => {
             .then(movies => res.render('moviesMain', { movies }))
             .catch(err => res.send(err))
     } else {
-        res.redirect('/login')
+        loginPageError(req, res, null, null);
     }
 
 })
@@ -40,41 +41,64 @@ router.post('/addMovie', ({ body }, res, next) => {
 })
 
 router.get('/login', (req, res, next) => {
-    res.render('login', { loginError: null, signupError: null })
+    res.render('login', { loginError: req.session.loginError, signupError: req.session.signupError })
 });
 
 router.post('/loginUser', (req, res, next) => {
-    console.log(req.body.username)
-        // queries
-        //     .checkUser(req.body.username)
-        //     .then(bool => {
-        //         if (bool)
-        //     })
+    queries
+        .getUserData(req.body.username)
+        .then(userData => {
+            console.log(userData[0]);
+            if (userData.length) {
+                validate(req.body.password, userData[0].password)
+                .then((okay) => {
+                    if(okay) {
+                        req.session.user = {id: userData[0].id, username: userData[0].username};
+                        res.redirect('/');
+                    } else {
+                        loginPageError(req, res, null, 'Wrong password');
+                    }
+                })
+                .catch(err => res.send(err));
+            } else {
+                loginPageError(req, res, null,'User ' + req.body.username + ' does not exist');
+            }
+        })
+        .catch(err => res.send(err));
 })
 
 router.get('/logout', (req, res, next) => {
     req.session = null;
-    res.redirect('/login', { loginError: null, signupError: null })
+    res.redirect('/login');
 });
 
 router.post('/addUser', (req, res, next) => {
     const { body } = req;
     queries
-        .checkUser(req.body.username)
-        .then(bool => {
-            if (bool) {
-                res.render('login', { loginError: null, signupError: "User already exists" })
+        .getUserData(req.body.username)
+        .then(userData => {
+            if (userData.length) {
+                loginPageError(req, res, "User "+req.body.username+ " already exists", null);
             } else {
-                hashPassword(body.password)
-                    .then((pw) => {
-                        body.password = pw;
-                        return queries.addUser(body)
-                    })
-                    .then((user) => {
-                        req.session.user = user;
-                        res.redirect('/')
-                    })
-                    .catch(err => res.send(err))
+                if (body.password === body.confirmpassword) {
+                    if (!validator.matches(body.password, /[^\s]{8,})/)) {
+                        loginPageError(req, res, "Password must be 8 characters",null);
+                    } else {
+                        hashPassword(body.password)
+                        .then((pw) => {
+                            body.password = pw;
+                            return queries.addUser(body)
+                        })
+                        .then((user) => {
+                            req.session.user = user;
+                            res.redirect('/')
+                        })
+                        .catch(err => res.send(err))
+                    }
+                } else {
+                    loginPageError(req, res, "Passwords do not match", null);
+                }
+                
             }
         })
         .catch(err => res.send(err))
