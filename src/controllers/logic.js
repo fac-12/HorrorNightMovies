@@ -10,7 +10,7 @@ const hashPassword = (password) => {
             }
         });
     });
-}
+};
 
 const validate = (pw, hash) => {
     return new Promise((resolve, reject) => {
@@ -22,7 +22,15 @@ const validate = (pw, hash) => {
             }
         });
     });
-}
+};
+
+const translateBool = (array) => {
+    
+    array.forEach(function(movie) {
+        movie.case = (movie.case === '1') ? true : false;
+    });
+    return array;
+};
 
 const loginPageError = (req, res, signupError, loginError) => {
     req.session.loginError = loginError;
@@ -34,4 +42,5 @@ module.exports = {
     hashPassword,
     validate,
     loginPageError,
+    translateBool,
 }

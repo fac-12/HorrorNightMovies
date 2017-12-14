@@ -51,13 +51,30 @@ body {
   margin: 0 20px;
 }
 
-.navbar__link {
-  color: var(--color-text-main);
-  text-transform: uppercase;
+.movie__voteBtn {
+  font-size: 1rem;
+  border: 0;
+  cursor: pointer;
+  outline: none;
 }
 
-.navbar__link:hover {
-  border-bottom: solid 3px var(--color-text-main);
+.movie__vote {
+  font-size: 1rem;
+}
+
+.fa-thumbs-up {
+  position: relative;
+  top: -1px;
+  margin-left: 3px;
+  color: rgb(85, 85, 85);
+}
+
+.fa-thumbs-up:hover {
+  color: green;
+}
+
+.green {
+  color: green;
 }
 
 .flex_container {
