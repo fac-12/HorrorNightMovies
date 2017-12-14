@@ -30,8 +30,9 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
         const username = req.session.user.username;
         const userId = req.session.user.id;
         queries
-            .singleMovieInfo(id)
-            .then(movie => {
+            .singleMovieInfo(id, userId)
+            .then(movieData => {
+                const movie = translateBool(movieData);
                 const singleMovie = movie[0];
                 res.render('singleMovie', { singleMovie, username, userId });
             })

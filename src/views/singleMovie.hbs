@@ -6,6 +6,9 @@
     <p class="singlemovie__description">{{singleMovie.description}}</p>
     <p class="singlemovie__rating">{{singleMovie.rating}}</p>
     <p class="movie__count">This movie was suggested by {{singleMovie.username}}</p>
-    <p class="movie__count">{{singleMovie.count}}</p>
-    <a href="/addVote?user{{../userId}}=&movie={{singleMovie.id}}">Upvote</a>
+    {{#if singleMovie.case}}
+        <button class='movie__voteBtn' type='button' id='vote_{{singleMovie.id}}'>{{singleMovie.count}}  <i class="fas green fa-thumbs-up"></i></button>
+    {{else}}
+        <button class='movie__voteBtn' type='button' id='vote_{{singleMovie.id}}'>{{singleMovie.count}}  <i class="far fa-thumbs-up"></i></button>
+    {{/if}}
 </section>

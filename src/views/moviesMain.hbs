@@ -20,9 +20,9 @@
             <p class="movie__rating">{{rating}}</p>
             <p class="movie__count">This movie was suggested by {{username}}</p>
             {{#if case}}
-            <button class='movie__voteBtn' type='button' id='user_{{../userId}}&vote_{{id}}'>{{count}}  <i class="fas green fa-thumbs-up"></i></button>
+            <button class='movie__voteBtn' type='button' id='vote_{{id}}'>{{count}}  <i class="fas green fa-thumbs-up"></i></button>
             {{else}}
-            <button class='movie__voteBtn' type='button' id='user_{{../userId}}&vote_{{id}}'>{{count}}  <i class="far fa-thumbs-up"></i></button>
+            <button class='movie__voteBtn' type='button' id='vote_{{id}}'>{{count}}  <i class="far fa-thumbs-up"></i></button>
             {{/if}}
         </section>
         {{/each}}
