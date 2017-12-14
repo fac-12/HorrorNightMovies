@@ -4,7 +4,7 @@
 const express = require('express');
 const router = express.Router();
 const queries = require('./queries');
-
+const { hashPassword } = require('./logic')
 
 
 router.get('/', (req, res, next) => {
@@ -39,20 +39,43 @@ router.post('/addMovie', ({ body }, res, next) => {
         .catch(err => res.send(err))
 })
 
-router.get('/login', (req, res, next) => res.render('login'));
+router.get('/login', (req, res, next) => {
+    res.render('login', { loginError: null, signupError: null })
+});
+
+router.post('/loginUser', (req, res, next) => {
+    console.log(req.body.username)
+        // queries
+        //     .checkUser(req.body.username)
+        //     .then(bool => {
+        //         if (bool)
+        //     })
+})
 
 router.get('/logout', (req, res, next) => {
     req.session = null;
-    res.redirect('/login')
+    res.redirect('/login', { loginError: null, signupError: null })
 });
 
 router.post('/addUser', (req, res, next) => {
     const { body } = req;
     queries
-        .addUser(body)
-        .then((user) => {
-            req.session.user = user;
-            res.redirect('/')
+        .checkUser(req.body.username)
+        .then(bool => {
+            if (bool) {
+                res.render('login', { loginError: null, signupError: "User already exists" })
+            } else {
+                hashPassword(body.password)
+                    .then((pw) => {
+                        body.password = pw;
+                        return queries.addUser(body)
+                    })
+                    .then((user) => {
+                        req.session.user = user;
+                        res.redirect('/')
+                    })
+                    .catch(err => res.send(err))
+            }
         })
         .catch(err => res.send(err))
 })
