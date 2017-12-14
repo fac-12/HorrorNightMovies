@@ -25,7 +25,6 @@ const localDB = {
 };
 
 const connection = process.env.NODE_ENV === 'production' ? herokuDB : localDB;
-console.log(process.env.NODE_ENV, 'production');
 
 const db = pgp(connection);
 module.exports = db;
