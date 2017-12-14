@@ -5,8 +5,7 @@ const express = require('express');
 const validator = require('validator');
 const router = express.Router();
 const queries = require('./queries');
-const { hashPassword, validate, loginPageError } = require('./logic')
-
+const { hashPassword, validate, loginPageError } = require('./logic');
 
 router.get('/', (req, res, next) => {
     if (req.session.user) {
@@ -47,6 +46,17 @@ router.post('/addMovie', (req, res, next) => {
     } else {
         loginPageError(req, res, null, null);
     }
+})
+
+
+router.get('/addVote?', (req, res, next) => {
+  const user_id = req.session.user.id;
+  const url = req.url;
+  const movie_id = url.split('&')[1].split('=')[1];
+    queries
+    .addVote(movie_id, user_id)
+    .then(res.redirect('/'))
+    .catch(err => res.send(err))
 })
 
 router.get('/login', (req, res, next) => {
@@ -111,5 +121,6 @@ router.post('/addUser', (req, res, next) => {
         })
         .catch(err => res.send(err))
 })
+
 
 module.exports = router;
