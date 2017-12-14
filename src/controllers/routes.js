@@ -5,8 +5,6 @@ const express = require('express');
 const router = express.Router();
 const queries = require('./queries');
 
-
-
 router.get('/', (req, res, next) => {
     if (req.session.user) {
         queries
@@ -41,9 +39,8 @@ router.post('/addMovie', ({ body }, res, next) => {
 
 
 router.get('/addVote?', (req, res, next) => {
+  const user_id = req.session.user.id;
   const url = req.url;
-  const user_id = 1;
-  //  url.split('&')[0].split('=')[1];
   const movie_id = url.split('&')[1].split('=')[1];
     queries
     .addVote(movie_id, user_id)
