@@ -27,16 +27,28 @@ body {
   box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
 }
 
-.navbar__container {
+/* .navbar__container {
   margin: 0 auto;
   max-width: var(--limited-width-container);
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
+} */
 
 .navbar__list {
   display: flex;
-  justify-content: space-between;
+  list-style-type: none;
+  padding: 0;
+}
+
+.navbar__title {
+  margin-left: 20px;
+  margin-right: auto;
+}
+
+.navbar__user {
+  
+}
+
+.navbar__logout {
+  margin: 0 20px;
 }
 
 .navbar__link {
