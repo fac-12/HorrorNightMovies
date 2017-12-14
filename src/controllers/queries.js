@@ -43,18 +43,6 @@ const checkVote = (movie_id, user_id) => {
     );
 };
 
-const userVoted = (user_id) => {
-    return db.query(
-        `SELECT id FROM movies WHERE user_id=${user_id}`
-    ).then(res => {
-        var arr = [];
-        res.forEach(item=>{
-            arr.push(item.id);
-        });
-        return arr;
-    });
-};
-
 module.exports = {
     getMovies,
     singleMovieInfo,
@@ -63,6 +51,5 @@ module.exports = {
     getUserData,
     addVote,
     checkVote,
-    userVoted,
     removeVote,
 }

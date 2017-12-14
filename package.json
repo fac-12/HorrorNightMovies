@@ -37,8 +37,6 @@
         "express-handlebars": "^3.0.0",
         "pg-promise": "^7.3.2",
         "query-string": "^5.0.1",
-        "request": "^2.83.0",
-        "request-promise": "^4.2.2",
         "serve-favicon": "^2.4.5",
         "validator": "^9.2.0"
     }
