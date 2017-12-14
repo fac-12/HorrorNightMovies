@@ -39,15 +39,14 @@ router.post('/addMovie', ({ body }, res, next) => {
         .catch(err => res.send(err))
 })
 
-router.get('/:addVote', (req, res, next) => {
+router.get('/addVote?', (req, res, next) => {
   const url = req.url;
-  const user_id = 1; //testing
+  const user_id = 1;
+  //  url.split('&')[0].split('=')[1];
   const movie_id = url.split('&')[1].split('=')[1];
-  console.log(movie_id);
-  queries
+    queries
     .addVote(movie_id, user_id)
     .then(res.redirect('/'))
-    // .then( () => window.location.reload())
     .catch(err => res.send(err))
 })
 

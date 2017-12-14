@@ -23,8 +23,7 @@ const addUser = addUser => {
 };
 
 const addVote = (movie_id, user_id) => {
-  // const { movieId, userId } = addUpVote;
-  return db.query(
+    return db.query(
   `INSERT INTO votes(movie_id, user_id) VALUES($1, $2) RETURNING user_id`, [movie_id, user_id]);
     };
 
