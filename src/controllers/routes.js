@@ -33,6 +33,11 @@ router.post('/addMovie', ({ body }, res, next) => {
     .catch(err => res.send(err))
 })
 
+router.post('/addVote:', ({ body }, res, next) => {
+
+  console.log(body);
+})
+
 router.get('/login', (req, res, next) => res.render('login'));
 router.post('/addUser', ({ body }, res, next) => {
     queries
