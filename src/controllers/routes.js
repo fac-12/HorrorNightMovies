@@ -5,8 +5,7 @@ const express = require('express');
 const validator = require('validator');
 const router = express.Router();
 const queries = require('./queries');
-const { hashPassword, validate, loginPageError } = require('./logic')
-
+const { hashPassword, validate, loginPageError } = require('./logic');
 
 router.get('/', (req, res, next) => {
     const username = req.session.user.username;
@@ -22,24 +21,44 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/getMovieInfo/:id', (req, res, next) => {
-    const { id } = req.params;
-    const username = req.session.user.username;
-    queries
-        .singleMovieInfo(id)
-        .then(movie => {
-            const singleMovie = movie[0];
-            res.render('singleMovie', { singleMovie, username });
-        })
-        .catch(err => res.send(err))
+    if (req.session.user) {
+        const { id } = req.params;
+        const username = req.session.user.username;
+        queries
+            .singleMovieInfo(id)
+            .then(movie => {
+                const singleMovie = movie[0];
+                res.render('singleMovie', { singleMovie, username });
+            })
+            .catch(err => res.send(err))
+    } else {
+        loginPageError(req, res, null, null);
+    }
 })
 
-router.post('/addMovie', ({ body }, res, next) => {
+router.post('/addMovie', (req, res, next) => {
+    const { body } = req;
+    if (req.session.user) {
+        queries
+            .addMovie(body)
+            .then(id => {
+                res.redirect(`/getMovieInfo/${id}`)
+            })
+            .catch(err => res.send(err))
+    } else {
+        loginPageError(req, res, null, null);
+    }
+})
+
+
+router.get('/addVote?', (req, res, next) => {
+  const user_id = req.session.user.id;
+  const url = req.url;
+  const movie_id = url.split('&')[1].split('=')[1];
     queries
-        .addMovie(body)
-        .then(id => {
-            res.redirect(`/getMovieInfo/${id}`)
-        })
-        .catch(err => res.send(err))
+    .addVote(movie_id, user_id)
+    .then(res.redirect('/'))
+    .catch(err => res.send(err))
 })
 
 router.get('/login', (req, res, next) => {
@@ -104,5 +123,6 @@ router.post('/addUser', (req, res, next) => {
         })
         .catch(err => res.send(err))
 })
+
 
 module.exports = router;

@@ -14,7 +14,6 @@ const hashPassword = (password) => {
 
 const validate = (pw, hash) => {
     return new Promise((resolve, reject) => {
-        console.log('pw', pw, '& hash', hash);
         bcrypt.compare(pw, hash, (err, res) => {
             if (err) {
                 reject(err);
