@@ -9,10 +9,11 @@ const { hashPassword, validate, loginPageError } = require('./logic')
 
 
 router.get('/', (req, res, next) => {
+    const username = req.session.user.username;
     if (req.session.user) {
         queries
             .getMovies()
-            .then(movies => res.render('moviesMain', { movies }))
+            .then(movies => res.render('moviesMain', { movies, username }))
             .catch(err => res.send(err))
     } else {
         loginPageError(req, res, null, null);
@@ -22,11 +23,12 @@ router.get('/', (req, res, next) => {
 
 router.get('/getMovieInfo/:id', (req, res, next) => {
     const { id } = req.params;
+    const username = req.session.user.username;
     queries
         .singleMovieInfo(id)
         .then(movie => {
             const singleMovie = movie[0];
-            res.render('singleMovie', { singleMovie });
+            res.render('singleMovie', { singleMovie, username });
         })
         .catch(err => res.send(err))
 })
