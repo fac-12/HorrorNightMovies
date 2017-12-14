@@ -2,8 +2,10 @@
 /*eslint-disable*/
 
 const express = require('express');
+const validator = require('validator');
 const router = express.Router();
 const queries = require('./queries');
+const { hashPassword, validate, loginPageError } = require('./logic');
 
 router.get('/', (req, res, next) => {
     if (req.session.user) {
@@ -12,7 +14,7 @@ router.get('/', (req, res, next) => {
             .then(movies => res.render('moviesMain', { movies }))
             .catch(err => res.send(err))
     } else {
-        res.redirect('/login')
+        loginPageError(req, res, null, null);
     }
 
 })
