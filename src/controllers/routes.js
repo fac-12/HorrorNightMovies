@@ -21,23 +21,32 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/getMovieInfo/:id', (req, res, next) => {
-    const { id } = req.params;
-    queries
-        .singleMovieInfo(id)
-        .then(movie => {
-            const singleMovie = movie[0];
-            res.render('singleMovie', { singleMovie });
-        })
-        .catch(err => res.send(err))
+    if (req.session.user) {
+        const { id } = req.params;
+        queries
+            .singleMovieInfo(id)
+            .then(movie => {
+                const singleMovie = movie[0];
+                res.render('singleMovie', { singleMovie });
+            })
+            .catch(err => res.send(err))
+    } else {
+        loginPageError(req, res, null, null);
+    }
 })
 
-router.post('/addMovie', ({ body }, res, next) => {
-    queries
-        .addMovie(body)
-        .then(id => {
-            res.redirect(`/getMovieInfo/${id}`)
-        })
-        .catch(err => res.send(err))
+router.post('/addMovie', (req, res, next) => {
+    const { body } = req;
+    if (req.session.user) {
+        queries
+            .addMovie(body)
+            .then(id => {
+                res.redirect(`/getMovieInfo/${id}`)
+            })
+            .catch(err => res.send(err))
+    } else {
+        loginPageError(req, res, null, null);
+    }
 })
 
 router.get('/login', (req, res, next) => {
