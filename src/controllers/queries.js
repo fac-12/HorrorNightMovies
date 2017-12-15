@@ -2,13 +2,13 @@ const db = require('../database/dbConnection');
 /*eslint-disable*/
 const getMovies = (userid) =>
     db.query(
-        `SELECT movies.id, (SELECT CASE WHEN EXISTS (SELECT movie_id FROM votes WHERE movie_id=movies.id AND user_id=${userid}) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END),(SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.rating, COUNT(votes.movie_id)
+        `SELECT movies.id, (SELECT CASE WHEN EXISTS (SELECT movie_id FROM votes WHERE movie_id=movies.id AND user_id=${userid}) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END),(SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, COUNT(votes.movie_id)
    FROM movies FULL JOIN votes ON movies.id=votes.movie_id GROUP BY
    movies.id ORDER BY COUNT(votes.movie_id) DESC`);
 
 const singleMovieInfo = (id, userid) =>
     db.query(
-        `SELECT movies.id, (SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.description, movies.rating, (SELECT CASE WHEN EXISTS (SELECT movie_id FROM votes WHERE movie_id=movies.id AND user_id=${userid}) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END), COUNT(votes.movie_id) FROM movies FULL JOIN votes ON movies.id=votes.movie_id WHERE movies.id=${id} GROUP BY movies.id`);
+        `SELECT movies.id, (SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.description, (SELECT CASE WHEN EXISTS (SELECT movie_id FROM votes WHERE movie_id=movies.id AND user_id=${userid}) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END), COUNT(votes.movie_id) FROM movies FULL JOIN votes ON movies.id=votes.movie_id WHERE movies.id=${id} GROUP BY movies.id`);
 
 const addMovie = (id, newMovie) => {
     const { title, year, description } = newMovie;
