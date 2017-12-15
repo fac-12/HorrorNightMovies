@@ -45,12 +45,14 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
 router.post('/addMovie', (req, res, next) => {
     const { body } = req;
     if (req.session.user) {
-        queries
+        if (body.title!==''&&body.year!=='') {
+            queries
             .addMovie(req.session.user.id, body)
             .then(id => {
                 res.redirect(`/getMovieInfo/${id}`)
             })
             .catch(err => res.send(err))
+        }
     } else {
         loginPageError(req, res, null, null);
     }
