@@ -85,9 +85,7 @@ router.get('/login', (req, res, next) => {
 router.post('/loginUser', (req, res, next) => {
     queries
         .getUserData(req.body.username)
-        .then(userData => {
-            return validate(req.body.password, userData, req.body.username)
-        })
+        .then(userData => validate(req.body.password, userData, req.body.username))
         .then(userData => {
             req.session.user = { id: userData[0].id, username: userData[0].username };
             res.redirect('/');
@@ -106,12 +104,8 @@ router.post('/addUser', (req, res, next) => {
     const { body } = req;
     queries
         .getUserData(req.body.username)
-        .then(userData => {
-            return validateNewUser(body, userData);
-        })
-        .then(pw => {
-            return hashPassword(pw);
-        })
+        .then(userData => validateNewUser(body, userData))
+        .then(pw => hashPassword(pw))
         .then(pw => {
             body.password = pw;
             return queries.addUser(body);
