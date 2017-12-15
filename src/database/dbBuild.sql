@@ -25,7 +25,7 @@ CREATE TABLE votes (
 
 INSERT INTO users (username, password) VALUES ('Lex', 'horrorshow'), ('Hannah', 'password');
 
-INSERT INTO movies(user_id, title, year, description, rating) VALUES
+INSERT INTO movies(user_id, title, year, description) VALUES
 (1, 'I walked with a Zombie', '1943', 'Evocative direction'),
 (1, 'Split', '2017', 'Split serves as a dramatic tour de force for James McAvoy in multiple roles -- and finds writer-director M. Night Shyamalan returning resoundingly to thrilling form.'),
 (2, 'The Conjuring 2', '2016', 'The Conjuring 2 can''t help but lose a bit of its predecessor''s chilly sting through familiarity, but what remains is still a superior ghost story told with spine-tingling skill.'),
