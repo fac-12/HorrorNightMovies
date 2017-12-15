@@ -172,6 +172,7 @@ a:hover {
 
 .navbar__title h3 {
     font-size: 1.5rem;
+    display: inline;
 }
 
 .flex_container {
