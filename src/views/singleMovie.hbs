@@ -7,9 +7,9 @@
     <p class="singlemovie__rating">{{singleMovie.rating}}</p>
     <p class="movie__count">This movie was suggested by {{singleMovie.username}}</p>
     {{#if singleMovie.case}}
-        <button class='movie__voteBtn' type='button' id='vote_{{singleMovie.id}}'>{{singleMovie.count}}  <i class="fas green fa-thumbs-up"></i></button>
+        <div class='movie__voteBtn' type='button' id='vote_{{singleMovie.id}}'>{{singleMovie.count}}  <i class="fas green fa-thumbs-up"></i></div>
     {{else}}
-        <button class='movie__voteBtn' type='button' id='vote_{{singleMovie.id}}'>{{singleMovie.count}}  <i class="far fa-thumbs-up"></i></button>
+        <div class='movie__voteBtn' type='button' id='vote_{{singleMovie.id}}'>{{singleMovie.count}}  <i class="far fa-thumbs-up"></i></div>
     {{/if}}
 </section>
 <script src="/index.js"></script>
