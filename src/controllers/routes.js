@@ -5,16 +5,18 @@ const express = require('express');
 const validator = require('validator');
 const router = express.Router();
 const queries = require('./queries');
-const queryString = require('query-string');
-const { hashPassword, validate, loginPageError } = require('./logic');
+const { hashPassword, validate, loginPageError, translateBool } = require('./logic');
 
 router.get('/', (req, res, next) => {
     if (req.session.user) {
         const userId = req.session.user.id;
         const username = req.session.user.username;
         queries
-            .getMovies()
-            .then(movies => res.render('moviesMain', { movies, username, userId }))
+            .getMovies(userId)
+            .then(movieArray => {
+                const movies = translateBool(movieArray);
+                res.render('moviesMain', { movies, username, userId });
+            })
             .catch(err => res.send(err))
     } else {
         loginPageError(req, res, null, null);
@@ -28,8 +30,9 @@ router.get('/getMovieInfo/:id', (req, res, next) => {
         const username = req.session.user.username;
         const userId = req.session.user.id;
         queries
-            .singleMovieInfo(id)
-            .then(movie => {
+            .singleMovieInfo(id, userId)
+            .then(movieData => {
+                const movie = translateBool(movieData);
                 const singleMovie = movie[0];
                 res.render('singleMovie', { singleMovie, username, userId });
             })
@@ -56,15 +59,17 @@ router.post('/addMovie', (req, res, next) => {
 
 router.get('/addVote?', (req, res, next) => {
     const userId = req.session.user.id;
-    const data = queryString.parse(req.url.split('?')[1]);
+    const movieId = req.url.split('?')[1];
     queries
-        .checkVote(data.movie, data.user)
+        .checkVote(movieId, userId)
         .then(voteResponse => {
             if (voteResponse.length) {
-                res.redirect('back');
+                queries.removeVote(movieId, userId)
+                    .then(res.status(200).send('removed vote'))
+                    .catch(err => res.send(err))
             } else {
-                queries.addVote(data.movie, data.user)
-                    .then(res.redirect('back'))
+                queries.addVote(movieId, userId)
+                    .then(res.status(201).send('added vote'))
                     .catch(err => res.send(err))
             }
         })

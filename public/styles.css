@@ -139,6 +139,32 @@ a:hover {
     color: #CF1C1D;
 }
 
+.movie__voteBtn {
+  font-size: 1rem;
+  border: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.movie__vote {
+  font-size: 1rem;
+}
+
+.fa-thumbs-up {
+  position: relative;
+  top: -1px;
+  margin-left: 3px;
+  color: red;
+}
+
+.fa-thumbs-up:hover {
+  color: rgb(12, 208, 12);
+}
+
+.green {
+  color: rgb(12, 208, 12);
+}
+
 .navbar__title a:hover {
     color: white;
 }

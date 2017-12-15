@@ -1,14 +1,14 @@
 const db = require('../database/dbConnection');
 /*eslint-disable*/
-const getMovies = () =>
+const getMovies = (userid) =>
     db.query(
-        `SELECT movies.id, (SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.rating, COUNT(votes.movie_id)
+        `SELECT movies.id, (SELECT CASE WHEN EXISTS (SELECT movie_id FROM votes WHERE movie_id=movies.id AND user_id=${userid}) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END),(SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.rating, COUNT(votes.movie_id)
    FROM movies FULL JOIN votes ON movies.id=votes.movie_id GROUP BY
    movies.id ORDER BY COUNT(votes.movie_id) DESC`);
 
-const singleMovieInfo = (id) =>
+const singleMovieInfo = (id, userid) =>
     db.query(
-        `SELECT (SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.description, movies.rating, COUNT(movies.id) FROM movies FULL JOIN votes ON movies.id=votes.movie_id WHERE movies.id=${id} GROUP BY movies.id`);
+        `SELECT movies.id, (SELECT username FROM users WHERE id = movies.user_id), movies.title, movies.year, movies.description, movies.rating, (SELECT CASE WHEN EXISTS (SELECT movie_id FROM votes WHERE movie_id=movies.id AND user_id=${userid}) THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT) END), COUNT(votes.movie_id) FROM movies FULL JOIN votes ON movies.id=votes.movie_id WHERE movies.id=${id} GROUP BY movies.id`);
 
 const addMovie = (id, newMovie) => {
     const { title, year, description } = newMovie;
@@ -31,6 +31,12 @@ const addVote = (movie_id, user_id) => {
         `INSERT INTO votes(movie_id, user_id) VALUES($1, $2) RETURNING user_id`, [movie_id, user_id]);
 };
 
+const removeVote = (movie_id, user_id) => {
+    return db.query(
+        `DELETE FROM votes WHERE movie_id=${movie_id} AND user_id=${user_id}`
+    );
+};
+
 const checkVote = (movie_id, user_id) => {
     return db.query(
         `SELECT * FROM votes WHERE movie_id=${movie_id} AND user_id=${user_id}`
@@ -45,4 +51,5 @@ module.exports = {
     getUserData,
     addVote,
     checkVote,
+    removeVote,
 }
