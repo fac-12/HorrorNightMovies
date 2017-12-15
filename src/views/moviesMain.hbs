@@ -6,18 +6,19 @@
             <input name="title" type="text" placeholder="Add movie title" required>
             <input name="year" type="text" placeholder="Add movie year (YYYY)" pattern="\d{4}" required>
             <input name="description" type="text" placeholder="Add movie description (optional)">
-            <input type="submit" value="Submit" />
+            <input class="sidebar_submit" type="submit" value="Submit" />
         </form>
     </aside>
 
     <div id='movies_section' class='movies_section'>
         {{#each movies}}
+        <div class="movie_container">
         <section class="movie" id="{{id}}">
             <a href="/getMovieInfo/{{id}}">
                 <h2 class="movie__title">{{title}}</h2>
             </a>
             <p class="movie__year">{{year}}</p>
-            <p class="movie__rating">{{rating}}</p>
+            <p class="movie__rating">★ {{rating}}</p>
             <p class="movie__count">This movie was suggested by {{username}}</p>
             {{#if case}}
             <div class='movie__voteBtn' type='button' id='vote_{{id}}'>{{count}}  <i class="fas green fa-thumbs-up"></i></div>
@@ -26,6 +27,7 @@
             {{/if}}
         </section>
         {{/each}}
+        </div>
     </div>
 </div>
 <script src="/index.js"></script>

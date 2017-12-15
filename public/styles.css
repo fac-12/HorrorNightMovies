@@ -1,54 +1,142 @@
 /***********************************************
   $page layout
 ***********************************************/
+
 * {
-  margin: 0;
-  box-sizing: border-box;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 html {
-  display: flex;
-  flex-direction: column;
-  /* min-height: 100%; */
+    display: flex;
+    flex-direction: column;
+    /* min-height: 100%; */
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  height: 100vh;
+    background-image: url(./images/background.jpeg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100vh;
+    color: white;
+    font-family: 'Cairo', sans-serif;
+    letter-spacing: 1px;
+    background-position: bottom;
 }
+
+
+/*General */
+
+a {
+    color: white;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+
+/* login page */
+
+.login_flex_container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login_flex_inner {
+    background-color: rgba(12, 18, 12, 0.7);
+    width: 60%;
+    height: auto;
+    display: flex;
+    padding: 1rem;
+    box-shadow: 2px 3px 5px black;
+    border-radius: 5px;
+}
+
+.signup,
+.login {
+    width: 50%;
+}
+
+.signup__form,
+.login__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.signup__header,
+.login__header {
+    margin: 1em 10%;
+    letter-spacing: 0.5px;
+    font-size: 1.5em;
+}
+
+.signup__form input,
+.login__form input {
+    font-family: 'Cairo', sans-serif;
+    letter-spacing: 0.5px;
+    font-size: 0.9em;
+    text-align: center;
+    width: 80%;
+    height: 3rem;
+    margin-bottom: 1rem;
+    border: 1px solid white;
+    background: white;
+    border-radius: 5px;
+}
+
+.login_submit {
+    font-family: 'Cairo', sans-serif;
+    letter-spacing: 1px;
+    background-color: #0C120C !important;
+    border: 1px solid #0C120C !important;
+    color: #CF1C1D;
+}
+
 
 /***********************************************
   $navbar
 ***********************************************/
+
 .navbar {
-  padding: 1rem 0;
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    padding: 1rem 0;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+    background-color: #0C120C;
+    color: #CF1C1D;
+    box-shadow: 2px 1px 2px grey;
+    margin-bottom: 1.5em;
 }
 
-/* .navbar__container {
-  margin: 0 auto;
-  max-width: var(--limited-width-container);
-} */
-
 .navbar__list {
-  display: flex;
-  list-style-type: none;
-  padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    list-style-type: none;
+    padding: 0;
 }
 
 .navbar__title {
-  margin-left: 20px;
-  margin-right: auto;
+    display: flex;
+    margin-left: 20px;
+    margin-right: auto;
+    font-size: 1em;
 }
 
-.navbar__user {
-  
+.navbar__title * {
+    margin: 0 0.2em;
 }
 
-.navbar__logout {
-  margin: 0 20px;
+.navbar__title a {
+    margin-left: 0.5em;
+    color: #CF1C1D;
 }
 
 .movie__voteBtn {
@@ -75,37 +163,117 @@ body {
 
 .green {
   color: green;
+.navbar__title a:hover {
+    color: white;
+}
+
+.navbar__title h3 {
+    font-size: 1.5rem;
 }
 
 .flex_container {
-  display: flex;
-  margin-bottom: auto;
+    display: flex;
+    margin-bottom: auto;
 }
 
-.sidebar{
-  width: 300px;
+.hand_img {
+    height: 40px;
+    display: inline;
 }
 
-.movies_section{
-  width: 100%;
-  padding: 0 15px;
+
+/* movies main page */
+
+.sidebar {
+    display: flex;
+    width: 40%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
-.sidebar__form{
-  display: flex;
-  flex-direction: column;
+.sidebar__form,
+.sidebar__header {
+    margin: 0;
+    padding: 0;
+    width: 90%;
+    flex-direction: column;
+    align-items: center;
 }
 
-.movie{
-  padding: 10px;
+.sidebar__header {
+    margin: 0.75em 0 0 0;
+    font-size: 1em;
+    color: black;
 }
 
-.singlemovie{
-  margin: 20px auto;
-  width: 50%;
-  margin-bottom: auto;
+.sidebar__form input {
+    width: 100% !important;
+    font-family: 'Cairo', sans-serif;
+    letter-spacing: 0.5px;
+    font-size: 0.8em;
+    text-align: center;
+    height: 3rem;
+    margin: 0.75em auto;
+    border: 1px solid white;
+    background: white;
+    border-radius: 5px;
+}
+
+.sidebar_submit {
+    background-color: #0C120C !important;
+    border: 1px solid #0C120C !important;
+    color: white;
+}
+
+.movies_section {
+    width: 100%;
+    height: 80vh;
+    padding: 0 15px;
+    overflow: hidden;
+}
+
+.movie {
+    padding: 10px;
+    min-height: 100px;
+    margin: 1em;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: block;
+}
+
+.movie__title {
+    color: #0C120C;
+}
+
+
+/* single movies main page */
+
+.singlemovie {
+    margin: auto;
+    position: absolute;
+    background-color: white;
+    opacity: 0.75;
+    top: 20%;
+    left: 20%;
+    width: 60%;
+    padding: 5%;
+    margin-bottom: auto;
+    color: black;
+}
+
+.singlemovie a {
+    color: #CF1C1D;
+    text-decoration: underline;
+}
+
+.singlemovie a:hover {
+    color: black;
 }
 
 .footer {
-  padding: 20px;
+    padding: 20px;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    bottom: 0;
 }
