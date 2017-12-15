@@ -4,7 +4,6 @@
     <h2 class="singlemovie__title">{{singleMovie.title}}</h2>
     <p class="singlemovie__year">{{singleMovie.year}}</p>
     <p class="singlemovie__description">{{singleMovie.description}}</p>
-    <p class="singlemovie__rating">★ {{singleMovie.rating}}</p>
     <p class="movie__count">This movie was suggested by {{singleMovie.username}}</p>
     {{#if singleMovie.case}}
         <div class='movie__voteBtn' type='button' id='vote_{{singleMovie.id}}'>{{singleMovie.count}}  <i class="fas green fa-thumbs-up"></i></div>
