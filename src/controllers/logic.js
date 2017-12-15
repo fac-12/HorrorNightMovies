@@ -1,4 +1,7 @@
 const bcrypt = require('bcrypt');
+const validator = require('validator');
+
+/*eslint-disable*/
 
 const hashPassword = (password) => {
     return new Promise((resolve, reject) => {
@@ -12,17 +15,43 @@ const hashPassword = (password) => {
     });
 };
 
-const validate = (pw, hash) => {
+const validate = (pw, userData, username) => {
     return new Promise((resolve, reject) => {
-        bcrypt.compare(pw, hash, (err, res) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(res);
-            }
-        });
+        if (userData.length) {
+            bcrypt.compare(pw, userData[0].password, (err, res) => {
+                if (err) {
+                    reject("bcrypt error: "+err);
+                } else {
+                    if (res) {
+                        resolve(userData);
+                    } else {
+                        reject('Wrong password');
+                    }
+                }
+            });
+        } else {
+            reject('User ' + username + ' does not exist, please sign up');
+        }
     });
 };
+
+const validateNewUser = (reqbody, userData) => {
+    return new Promise((resolve, reject) => {
+        if (userData.length) {
+            reject("Username " + reqbody.username + " already exists");
+        } else {
+            if (reqbody.password === reqbody.confirmpassword) {
+                if (!validator.matches(reqbody.password, /[^\s]{8,}/)) {
+                    reject("Password must be at least 8 characters");
+                } else {
+                    resolve(reqbody.password);
+                }
+            } else {
+                reject("Passwords do not match");
+            }
+        }
+    });
+}
 
 const translateBool = (array) => {
     
@@ -43,4 +72,5 @@ module.exports = {
     validate,
     loginPageError,
     translateBool,
+    validateNewUser,
 }
