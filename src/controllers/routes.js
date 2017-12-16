@@ -5,7 +5,7 @@ const express = require('express');
 const validator = require('validator');
 const router = express.Router();
 const queries = require('./queries');
-const { hashPassword, validate, loginPageError, translateBool } = require('./logic');
+const { hashPassword, validate, loginPageError, translateBool, validateNewUser } = require('./logic');
 
 router.get('/', (req, res, next) => {
     if (req.session.user) {
@@ -85,24 +85,15 @@ router.get('/login', (req, res, next) => {
 router.post('/loginUser', (req, res, next) => {
     queries
         .getUserData(req.body.username)
+        .then(userData => validate(req.body.password, userData, req.body.username))
         .then(userData => {
-            if (userData.length) {
-                validate(req.body.password, userData[0].password)
-                    .then((okay) => {
-                        if (okay) {
-                            req.session.user = { id: userData[0].id, username: userData[0].username };
-                            res.redirect('/');
-                        } else {
-                            loginPageError(req, res, null, 'Wrong password');
-                        }
-                    })
-                    .catch(err => res.send(err));
-            } else {
-                loginPageError(req, res, null, 'User ' + req.body.username + ' does not exist, please sign up');
-            }
+            req.session.user = { id: userData[0].id, username: userData[0].username };
+            res.redirect('/');
         })
-        .catch(err => res.send(err));
-})
+        .catch(err => {
+            loginPageError(req, res, null, err);
+        });
+});
 
 router.get('/logout', (req, res, next) => {
     req.session = null;
@@ -113,32 +104,19 @@ router.post('/addUser', (req, res, next) => {
     const { body } = req;
     queries
         .getUserData(req.body.username)
-        .then(userData => {
-            if (userData.length) {
-                loginPageError(req, res, "Username " + req.body.username + " already exists", null);
-            } else {
-                if (body.password === body.confirmpassword) {
-                    if (!validator.matches(body.password, /[^\s]{8,}/)) {
-                        loginPageError(req, res, "Password must be at least 8 characters", null);
-                    } else {
-                        hashPassword(body.password)
-                            .then((pw) => {
-                                body.password = pw;
-                                return queries.addUser(body)
-                            })
-                            .then((user) => {
-                                req.session.user = user;
-                                res.redirect('/')
-                            })
-                            .catch(err => res.send(err))
-                    }
-                } else {
-                    loginPageError(req, res, "Passwords do not match", null);
-                }
-
-            }
+        .then(userData => validateNewUser(body, userData))
+        .then(pw => hashPassword(pw))
+        .then(pw => {
+            body.password = pw;
+            return queries.addUser(body);
         })
-        .catch(err => res.send(err))
+        .then(user => {
+            req.session.user = user;
+            res.redirect('/')
+        })
+        .catch(err => {
+            loginPageError(req, res, err, null);
+        });
 })
 
 
